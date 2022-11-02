@@ -8,16 +8,19 @@ set( LIBMOLGRID_SOURCES
  example_provider.cpp
  example_dataset.cpp
  grid_maker.cpp
- grid_maker.cu
  coordinateset.cpp
- coordinateset.cu
  coord_cache.cpp
  transform.cpp
- transform.cu
  grid_io.cpp
  grid_interpolater.cpp
- grid_interpolater.cu
  cartesian_grid.cpp
+)
+
+set( LIBMOLGRID_SOURCES_CUDA
+ grid_maker.cu
+ coordinateset.cu
+ transform.cu
+ grid_interpolater.cu
 )
 
 set( LIBMOLGRID_HEADERS
@@ -46,14 +49,14 @@ set ( LIBMOLGRID_HEADERS ${LIBMOLGRID_HEADERS}  PARENT_SCOPE)
 #include_directories(${OPENBABEL3_INCLUDE_DIR})
 
 if(BUILD_SHARED)
-    add_library(libmolgrid_shared SHARED ${LIBMOLGRID_HEADERS} ${LIBMOLGRID_SOURCES})
+    add_library(libmolgrid_shared SHARED ${LIBMOLGRID_HEADERS} ${LIBMOLGRID_SOURCES} ${LIBMOLGRID_SOURCES_CUDA})
     SET_TARGET_PROPERTIES(libmolgrid_shared PROPERTIES OUTPUT_NAME molgrid CUDA_SEPARABLE_COMPILATION OFF)
     target_link_libraries(libmolgrid_shared ${OPENBABEL3_LIBRARIES} ${Boost_LIBRARIES} ${ZLIB_LIBRARIES})
     install(TARGETS libmolgrid_shared DESTINATION lib)
 endif()
 
 if(BUILD_STATIC)
-    add_library(libmolgrid_static STATIC ${LIBMOLGRID_HEADERS} ${LIBMOLGRID_SOURCES})
+    add_library(libmolgrid_static STATIC ${LIBMOLGRID_HEADERS} ${LIBMOLGRID_SOURCES} ${LIBMOLGRID_SOURCES_CUDA})
     SET_TARGET_PROPERTIES(libmolgrid_static PROPERTIES OUTPUT_NAME molgrid CUDA_SEPARABLE_COMPILATION OFF POSITION_INDEPENDENT_CODE ON )
     target_link_libraries(libmolgrid_static ${OPENBABEL3_LIBRARIES} ${Boost_LIBRARIES} ${ZLIB_LIBRARIES})
     #install libs

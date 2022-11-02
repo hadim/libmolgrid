@@ -10,16 +10,25 @@ include_directories(SYSTEM ${OPENBABEL3_INCLUDE_DIR})
 set( TEST_SRCS
  test_coordinateset.cpp
  test_grid.cpp
- test_grid.cu
  test_gridmaker.cpp
- test_gridmaker.cu
  test_gridinterp.cpp
  test_mgrid.cpp
- test_mgrid.cu
  test_quaternion.cpp
  test_transform.cpp
+)
+
+set( TEST_SRCS_CUDA
+ test_grid.cu
+ test_gridmaker.cu
+ test_mgrid.cu
  test_transform.cu
 )
+
+if(NOT CPU_ONLY)
+  set(TEST_SRCS_ALL ${TEST_SRCS} ${TEST_SRCS_CUDA})
+else()
+  set(TEST_SRCS_ALL ${TEST_SRCS})
+endif()
 
 #Run through each source
 foreach(testSrc ${TEST_SRCS})

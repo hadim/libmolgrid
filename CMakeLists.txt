@@ -1,4 +1,5 @@
 cmake_minimum_required (VERSION 3.18)
+
 if(NOT CPU_ONLY)
   project(LibMolGrid LANGUAGES C CXX CUDA)
 else()
