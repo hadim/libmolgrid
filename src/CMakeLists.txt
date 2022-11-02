@@ -44,6 +44,7 @@ set( LIBMOLGRID_HEADERS
  ../include/libmolgrid/cartesian_grid.h
 )
 
+
 set ( LIBMOLGRID_HEADERS ${LIBMOLGRID_HEADERS}  PARENT_SCOPE)
 #include_directories (${Boost_INCLUDE_DIRS})
 #include_directories(${OPENBABEL3_INCLUDE_DIR})

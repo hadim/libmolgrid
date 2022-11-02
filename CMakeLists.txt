@@ -1,7 +1,10 @@
 cmake_minimum_required (VERSION 3.18)
 
-if(NOT CPU_ONLY)
+option(WITH_CUDA "Enable CUDA support" ON)
+
+if(WITH_CUDA)
   project(LibMolGrid LANGUAGES C CXX CUDA)
+  add_definitions(-DWITH_CUDA)
 else()
   project(LibMolGrid LANGUAGES C CXX)
 endif()
@@ -40,7 +43,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 
 #dependencies
-if(NOT CPU_ONLY)
+if(WITH_CUDA)
   find_package(CUDA REQUIRED)
 endif()
 find_package(Boost REQUIRED COMPONENTS regex unit_test_framework program_options system filesystem iostreams)
@@ -56,7 +59,7 @@ configure_file (
   )
 
 set(CMAKE_CXX_STANDARD 14)
-if(NOT CPU_ONLY)
+if(WITH_CUDA)
   set(CMAKE_CUDA_STANDARD 14)
 endif()
 
@@ -70,7 +73,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     endif()
 endif()
 
-if(NOT CPU_ONLY)
+if(WITH_CUDA)
   if(CUDA_VERSION_MAJOR LESS 11)
   #compile for all major architectures >= 35
    set(CMAKE_CUDA_ARCHITECTURES 35 50 60 70 75 80)
@@ -96,7 +99,8 @@ add_subdirectory(python)
 add_subdirectory(docs)
 
 # enable testing
-include(CTest)
-enable_testing()
-# define tests
-add_subdirectory(test)
+# TODO(hadim): uncomment
+# include(CTest)
+# enable_testing()
+# # define tests
+# add_subdirectory(test)

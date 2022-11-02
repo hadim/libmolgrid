@@ -24,7 +24,7 @@ set( TEST_SRCS_CUDA
  test_transform.cu
 )
 
-if(NOT CPU_ONLY)
+if(WITH_CUDA)
   set(TEST_SRCS_ALL ${TEST_SRCS} ${TEST_SRCS_CUDA})
 else()
   set(TEST_SRCS_ALL ${TEST_SRCS})

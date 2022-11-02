@@ -6,7 +6,9 @@
 #ifndef QUATERNION_H_
 #define QUATERNION_H_
 
+#ifdef WITH_CUDA
 #include <cuda_runtime.h>
+#endif
 
 namespace libmolgrid {
 

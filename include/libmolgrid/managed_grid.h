@@ -54,8 +54,10 @@ class ManagedGridBase {
     static void delete_buffer(void *ptr) {
       buffer_data *data = (buffer_data*)(ptr) - 1;
       if(data->gpu_ptr != nullptr) {
+#ifdef WITH_CUDA
         //deallocate gpu
         cudaFree(data->gpu_ptr);
+#endif
       }
       free(data);
     }

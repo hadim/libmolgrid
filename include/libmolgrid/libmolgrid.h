@@ -3,14 +3,17 @@
  *  libmolgrid provides GPU accelerated routines for converting molecular
  *  data into dense grids for use in deep learning workflows.
  */
- 
+
 #ifndef LIBMOLGRID_H_
 #define LIBMOLGRID_H_
 
 #include <random>
 #include <iostream>
 #include <boost/lexical_cast.hpp>
+
+#ifdef WITH_CUDA
 #include <cuda_runtime.h>
+#endif
 
 // dimensionalities up to but not including LIBMOLGRID_MAX_GRID_DIM are pre-instantiated
 #define LIBMOLGRID_MAX_GRID_DIM 9
