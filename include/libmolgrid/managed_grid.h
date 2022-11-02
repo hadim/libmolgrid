@@ -13,6 +13,7 @@
 #include <memory>
 #include <utility>
 #include <boost/lexical_cast.hpp>
+#include <boost/throw_exception.hpp>
 
 #include "libmolgrid/grid.h"
 
@@ -285,6 +286,9 @@ class ManagedGridBase {
 
     /** \brief Transfer data to GPU */
     void togpu(bool dotransfer=true) const {
+
+#ifdef WITH_CUDA
+
       if(capacity == 0) return;
       //check that memory is allocated - even if data is on gpu, may still need to set this mgrid's gpu_grid
       if(gpu_grid.data() == nullptr) {
@@ -298,6 +302,10 @@ class ManagedGridBase {
         LMG_CUDA_CHECK(cudaMemcpy(gpu_info->gpu_ptr,cpu_ptr.get(),capacity*sizeof(Dtype),cudaMemcpyHostToDevice));
       }
       if(gpu_info) gpu_info->sent_to_gpu = true;
+
+#else
+      BOOST_THROW_EXCEPTION(std::runtime_error("Not compiled with CUDA support"));
+#endif
     }
 
     /** \brief Transfer data to CPU.  If not dotransfer, data is not copied back. */
